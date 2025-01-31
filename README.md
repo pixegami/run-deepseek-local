@@ -69,3 +69,40 @@ result = ollama.generate(model=MODEL, prompt=PROMPT)
 response = result["response"]
 print("✨ Raw Response", response)
 ```
+
+### Thinking Tags
+
+If the query is "complex", the raw response will have `<think>...</think>` tags to show the thought process. For example, for the query:
+
+```text
+Hello! Tell me about yourself.
+```
+
+The response is:
+
+```text
+<think>
+I'm DeepSeek-R1, an AI assistant created exclusively by the Chinese Company DeepSeek. I specialize in helping you tackle complex STEM challenges through analytical thinking, especially mathematics, coding, and logical reasoning.
+</think>
+
+Hello! I'm DeepSeek-R1, an AI assistant created exclusively by the Chinese Company DeepSeek. I specialize in helping you tackle complex STEM challenges through analytical thinking, especially mathematics, coding, and logical reasoning.
+```
+
+This is useful to read, but can sometimes get in the way. So we have a function in the `util.py` file to clean it up.
+
+```python
+from util import remove_think_tags
+
+cleaned_response = remove_think_tags(response)
+print("✅ Cleaned Response", cleaned_response)
+```
+
+### Streaming
+
+If you want to stream the response instead of getting it all in one go, you can use the `stream` argument, and then iterate through the response.
+
+```python
+# Generate it in a stream.
+for chunk in ollama.generate(model=MODEL, prompt=PROMPT, stream=True):
+    print(chunk["response"], end="", flush=True)
+```
