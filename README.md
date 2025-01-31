@@ -40,3 +40,32 @@ ollama run deepseek-r1:7b
 ```
 
 6. Once the download is complete, you can start interacting with DeepSeek-R1 in your terminal by typing your prompts and pressing `Enter`.
+
+
+## Run via Python (via Ollama)
+
+If you want to use it as part of your Python application, you can run it by calling the local server directly (via REST), but it's easier to use the `ollama` library.
+
+```sh
+# Make sure the Ollama server is running.
+ollama serve
+```
+
+```sh
+# Install Ollama Python library
+pip install ollama
+```
+
+Run a query via Python (see `main,py`):
+
+```python
+import ollama
+
+MODEL = "deepseek-r1:7b"
+PROMPT = "Hello! What is the capital of France?"
+
+# Generate it in one shot.
+result = ollama.generate(model=MODEL, prompt=PROMPT)
+response = result["response"]
+print("✨ Raw Response", response)
+```
